@@ -1,0 +1,31 @@
+@{
+    ViewBag.Title = "Home Page";
+}
+<script>
+    function OnToolbarItemClick(s, e) {
+        switch (e.item.name) {
+            case "PDF":
+            case "XLSX":
+            case "XLS":
+                ExportGrid(e.item.name);
+                break;
+            case "nextPage":
+                s.NextPage();
+                break;
+            case "previousPage":
+                s.PrevPage();
+                break;
+        }
+    }
+
+    function ExportGrid(name) {
+        var actionParams = $("form").attr("action").split("?OutputFormat=");
+        actionParams[1] = name;
+        $("form").attr("action", actionParams.join("?OutputFormat="));
+        $("form").submit();
+    }
+</script>
+
+@using (Html.BeginForm("ExportTo", "Home")) {
+    @Html.Action("GridViewPartial")
+}

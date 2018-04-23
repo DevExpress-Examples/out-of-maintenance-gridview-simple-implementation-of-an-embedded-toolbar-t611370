@@ -1,0 +1,132 @@
+@{
+    var grid = Html.DevExpress().GridView(settings => {
+        settings.Name = "GridView";
+        settings.CallbackRouteValues = new { Controller = "Home", Action = "GridViewPartial" };
+
+        settings.SettingsEditing.AddNewRowRouteValues = new { Controller = "Home", Action = "GridViewPartialAddNew" };
+        settings.SettingsEditing.UpdateRowRouteValues = new { Controller = "Home", Action = "GridViewPartialUpdate" };
+        settings.SettingsEditing.DeleteRowRouteValues = new { Controller = "Home", Action = "GridViewPartialDelete" };
+        settings.SettingsEditing.Mode = GridViewEditingMode.EditFormAndDisplayRow;
+        settings.SettingsBehavior.ConfirmDelete = false;
+
+        settings.KeyFieldName = "ID";
+
+        settings.Width = Unit.Percentage(80);
+
+        settings.SettingsPager.Visible = true;
+        settings.Settings.ShowGroupPanel = true;
+        settings.Settings.ShowFilterRow = false;
+        settings.SettingsBehavior.AllowSelectByRowClick = true;
+
+        settings.SettingsCustomizationDialog.Enabled = true;
+        settings.SettingsBehavior.AllowFocusedRow = true;
+
+        settings.Columns.Add("ID");
+        settings.Columns.Add("Text");
+        settings.Columns.Add("Value1");
+        settings.Columns.Add("Value2");
+
+        settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "Value2");
+
+        settings.Toolbars.Add(toolbar => {
+            toolbar.Enabled = true;
+            toolbar.Position = GridToolbarPosition.Top;
+            toolbar.ItemAlign = GridToolbarItemAlign.Right;
+            toolbar.Items.Add(GridViewToolbarCommand.New);
+            toolbar.Items.Add(GridViewToolbarCommand.Edit);
+            toolbar.Items.Add(GridViewToolbarCommand.Delete);
+            toolbar.Items.Add(emptyItem => {
+                emptyItem.ItemStyle.Width = Unit.Percentage(100);
+                emptyItem.SetTemplateContent(c => { });
+            });
+            toolbar.Items.Add(i => {
+                i.Text = "Export to";
+                i.Image.IconID = DevExpress.Web.ASPxThemes.IconID.ActionsDownload16x16office2013;
+                i.BeginGroup = true;
+                i.Items.Add(item => {
+                    item.Command = GridViewToolbarCommand.Custom;
+                    item.Name = "PDF";
+                    item.Text = "Export to PDF";
+                    item.Image.IconID = "export_exporttopdf_16x16office2013";
+                });
+                i.Items.Add(item => {
+                    item.Command = GridViewToolbarCommand.Custom;
+                    item.Text = "Export to XLSX";
+                    item.Name = "XLSX";
+                   
+                    item.Image.IconID = "export_exporttoxlsx_16x16office2013";
+                });
+                i.Items.Add(item => {
+                    item.Command = GridViewToolbarCommand.Custom;
+                    item.Text = "Export to XLS";
+                    item.Name = "XLS";
+                    item.Image.IconID = "export_exporttoxls_16x16office2013";
+                });
+            });
+            toolbar.Items.Add(GridViewToolbarCommand.Refresh, true);
+        });
+        settings.Toolbars.Add(toolbar => {
+            toolbar.Enabled = true;
+            toolbar.Position = GridToolbarPosition.Top;
+            toolbar.ItemAlign = GridToolbarItemAlign.Right;
+            toolbar.Items.Add(item => {
+                item.Command = GridViewToolbarCommand.Custom;
+                item.Name = "previousPage";
+                item.ToolTip = "Previous Page";
+                item.BeginGroup = true;
+                item.Image.IconID = "navigation_backward_16x16";
+            });
+            toolbar.Items.Add(item => {
+                item.Command = GridViewToolbarCommand.Custom;
+                item.Name = "nextPage";
+                item.ToolTip = "Next Page";
+                item.Image.IconID = "navigation_forward_16x16";
+            });
+            toolbar.Items.Add(i => {
+                i.Command = GridViewToolbarCommand.ShowCustomizationDialog;
+                i.Text = "Show Customization Dialog";
+            });
+            toolbar.Items.Add(emptyItem => {
+                emptyItem.ItemStyle.Width = Unit.Percentage(100);
+                emptyItem.SetTemplateContent(c => { });
+            });
+
+            toolbar.Items.Add(GridViewToolbarCommand.ClearFilter, true);
+            toolbar.Items.Add(item=> {
+                item.Text = "Add filter";
+                item.Command = GridViewToolbarCommand.ShowFilterEditor;
+                item.BeginGroup = true;
+            });
+            toolbar.Items.Add(item => {
+                item.Items.Add(i => {
+                    i.Command = GridViewToolbarCommand.ShowFilterRow;
+                    i.Text = "Show Filter Row";
+                });
+                item.Items.Add(i => {
+                    i.Command = GridViewToolbarCommand.ShowFilterRowMenu;
+                    i.Text = "Show Filter Row Menu";
+                });
+                item.Items.Add(i => {
+                    i.Command = GridViewToolbarCommand.ShowFooter;
+                    i.Text = "Show Footer";
+                });
+                item.Items.Add(i => {
+                    i.Command = GridViewToolbarCommand.ShowGroupPanel;
+                    i.Text = "Show Group Panel";
+                    i.Checked = true;
+                });
+                item.Items.Add(i => {
+                    i.Command = GridViewToolbarCommand.ShowSearchPanel;
+                    i.Text = "Show Search Panel";
+                });
+            });
+
+        });
+
+        settings.ClientSideEvents.ToolbarItemClick = "OnToolbarItemClick";
+    });
+    if (ViewData["EditError"] != null) {
+        grid.SetEditErrorText((string)ViewData["EditError"]);
+    }
+}
+@grid.Bind(Model).GetHtml()
