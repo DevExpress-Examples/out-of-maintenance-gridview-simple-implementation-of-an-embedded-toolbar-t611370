@@ -1,3 +1,11 @@
+<!-- default file list -->
+*Files to look at*:
+
+* [HomeController.cs](./CS/T611370_CS/Controllers/HomeController.cs)
+* [TestDataItem.cs](./CS/T611370_CS/Models/TestDataItem.cs)
+* [_GridViewPartial.cshtml](./CS/T611370_CS/Views/Home/_GridViewPartial.cshtml)
+* [Index.cshtml](./CS/T611370_CS/Views/Home/Index.cshtml)
+<!-- default file list end -->
 # GridView - Simple implementation of an embedded toolbar
 
 
