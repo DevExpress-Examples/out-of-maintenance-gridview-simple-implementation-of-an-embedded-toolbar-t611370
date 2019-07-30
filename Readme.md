@@ -8,7 +8,7 @@
 <!-- default file list end -->
 # GridView - Simple implementation of an embedded toolbar
 <!-- run online -->
-**[[Run Online]](https://codecentral.devexpress.com/t611370)**
+**[[Run Online]](https://codecentral.devexpress.com/t611370/)**
 <!-- run online end -->
 
 
